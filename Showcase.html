@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Example Showcase | Anim2D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+	<link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--bg-deep);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .text-glow { color: var(--mint-bright); text-shadow: 0 0 12px rgba(110, 231, 183, 0.6); }
+
+        /* --- Moving Along the Way Showcase (Looping) --- */
+        .showcase-container {
+            width: 100%; overflow: hidden; padding: 60px 0;
+            background: rgba(0,0,0,0.2);
+        }
+        .showcase-track {
+            display: flex; gap: 40px; width: max-content;
+            animation: moveAlong 40s linear infinite;
+        }
+        @keyframes moveAlong {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
+        }
+        .showcase-track:hover { animation-play-state: paused; }
+
+        .slide-item {
+            width: 320px; height: 420px; background: white; padding: 15px;
+            border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: 0.4s; flex-shrink: 0;
+        }
+        .slide-item img { 
+            width: 100%; height: 340px; object-fit: cover; border-radius: 4px; 
+        }
+        .slide-item p { 
+            color: #333; font-weight: 900; text-align: center; 
+            margin-top: 15px; text-transform: uppercase; font-size: 0.8rem;
+        }
+        .slide-item:hover { transform: scale(1.05) translateY(-10px); }
+
+        /* --- Content Box --- */
+        .content-box {
+            background: var(--glass-bg); padding: 30px;
+            border-radius: 1.5rem; border: 1px solid var(--glass-border);
+            width: 90%; max-width: 900px; margin: 40px auto;
+        }
+
+        .video-wrapper {
+            position: relative; width: 100%; padding-bottom: 56.25%;
+            height: 0; border-radius: 12px; overflow: hidden; background: #000;
+        }
+        #youtubePlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        .arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 50px; height: 50px; background: rgba(110, 231, 183, 0.2);
+            color: white; border-radius: 50%; border: none; cursor: pointer;
+            font-size: 20px; transition: 0.3s; z-index: 10;
+        }
+        .arrow:hover { background: var(--mint-bright); color: var(--bg-deep); }
+        .arrow-left { left: 15px; }
+        .arrow-right { right: 15px; }
+
+        .next-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .next-video-button {
+            background: var(--mint-bright);
+            color: var(--bg-deep);
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(110, 231, 183, 0.4);
+        }
+        .next-video-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(110, 231, 183, 0.6);
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aurora-mesh"></div>
+
+   <nav class="nav-bar sticky top-0 z-50 bg-[#064E3B] backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+        <span class="text-xl font-black tracking-tighter uppercase shrink-0">
+            Anim<span class="text-glow">2D</span>
+        </span>
+
+        <div class="hidden md:flex flex-1 justify-center gap-10">
+            <a href="Index.html" class="nav-link">Home</a>
+            <a href="About.html" class="nav-link">About</a>
+            <a href="Software.html" class="nav-link">Software</a>
+            <a href="Showcase.html" class="nav-link active-link">Showcase</a>
+            <a href="Line Art.html" class="nav-link">Line Art</a>
+            <a href="Motion.html" class="nav-link">Motion</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="nav-actions hidden md:flex shrink-0">
+                <div id="logged-out-UI" class="flex gap-4">
+                    <button class="signin" id="navSignIn">Sign In</button>
+                    <button class="get-started" id="navGetStarted">Get Started</button>
+                </div>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-white text-3xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+ <div id="mobile-menu" class="hidden flex-col bg-[#064E3B] border-b border-white/10 px-8 py-10 space-y-5 md:hidden w-full">
+        <a href="Index.html" class="nav-link block">Home</a>
+        <a href="About.html" class="nav-link block">About</a>
+        <a href="Software.html" class="nav-link block">Software</a>
+        <a href="Showcase.html" class="nav-link block active-link">Showcase</a>
+        <a href="Line Art.html" class="nav-link block">Line Art</a>
+        <a href="Motion.html" class="nav-link block">Motion</a>
+        <hr class="border-white/10">
+        <button class="signin w-full py-2">Sign In</button>
+        <button class="get-started w-full py-3 mt-2">Get Started</button>
+    </div>
+</nav>
+	
+	<div id="authModal" class="modal" style="display: none; align-items: center; justify-content: center;">
+    <div class="modal-content" style="position: relative;">
+        <span class="close-btn" style="position: absolute; right: 20px; top: 10px; cursor: pointer; font-size: 24px;">&times;</span>
+        
+        <div id="login-container">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black uppercase">Welcome Back</h2>
+                <p class="text-sm text-gray-500">Log in to access your account.</p>
+            </div>
+            <form id="loginForm">
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Email Address</label>
+                    <input type="email" id="loginEmail" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="name@company.com" required>
+                </div>
+                <div class="input-group mb-6">
+                    <label class="block text-xs uppercase font-bold mb-1">Password</label>
+                    <input type="password" id="loginPassword" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-continue w-full py-3 bg-white text-black font-bold uppercase rounded">Log In</button>
+            </form>
+        </div>
+
+        <div id="register-container" style="display: none;">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black uppercase">Join Anim2D</h2>
+                <p class="text-sm text-gray-500">Create your account to get started.</p>
+            </div>
+            <form id="registerForm">
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Full Name</label>
+                    <input type="text" id="regName" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="Your Name" required>
+                </div>
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Email</label>
+                    <input type="email" id="regEmail" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="email@example.com" required>
+                </div>
+                <div class="input-group mb-6">
+                    <label class="block text-xs uppercase font-bold mb-1">Password</label>
+                    <input type="password" id="regPassword" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-continue w-full py-3 bg-white text-black font-bold uppercase rounded">Create Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+            <h1 class="text-4xl md:text-5xl font-black text-center uppercase italic mt-16 mb-8">Showcase <span class="text-glow">Gallery</span></h1>
+
+    <div class="showcase-container">
+        <div class="showcase-track">
+            <div class="slide-item"><img src="https://dreamfarmstudios.com/wp-content/uploads/2021/04/01-1.png"><p>Character Art</p></div>
+            <div class="slide-item"><img src="https://www.gamedesigning.org/wp-content/uploads/2015/10/2d-animation.jpg"><p>Environment</p></div>
+            <div class="slide-item"><img src="http://bigcreative.education/wp-content/uploads/2023/02/2d-animation-sketch.jpeg"><p>Rough Sketch</p></div>
+            <div class="slide-item"><img src="https://static.rfstat.com/bloggers_folders/17b38555-2cbc-4546-ad98-f3690dc1b257.jpg"><p>Storyboard</p></div>
+            <div class="slide-item"><img src="https://dreamfarmstudios.com/wp-content/uploads/2021/04/2d-vs-3d-graphics-800x450.jpg"><p>Final Concept</p></div>
+            <div class="slide-item"><img src="https://dreamfarmstudios.com/wp-content/uploads/2021/04/01-1.png"><p>Character Art</p></div>
+            <div class="slide-item"><img src="https://www.gamedesigning.org/wp-content/uploads/2015/10/2d-animation.jpg"><p>Environment</p></div>
+            <div class="slide-item"><img src="http://bigcreative.education/wp-content/uploads/2023/02/2d-animation-sketch.jpeg"><p>Rough Sketch</p></div>
+            <div class="slide-item"><img src="https://static.rfstat.com/bloggers_folders/17b38555-2cbc-4546-ad98-f3690dc1b257.jpg"><p>Storyboard</p></div>
+            <div class="slide-item"><img src="https://dreamfarmstudios.com/wp-content/uploads/2021/04/2d-vs-3d-graphics-800x450.jpg"><p>Final Concept</p></div>
+        </div>
+    </div>
+
+    <div class="content-box">
+        <h3 id="video-title" class="text-center font-bold uppercase tracking-widest mb-6"><strong class="text-glow">Featured Animation Video</strong></h3>
+        <div class="video-wrapper">
+            <div id="youtubePlayer"></div>
+            <button class="arrow arrow-left" onclick="changeVideo(-1)">&#10094;</button>
+            <button class="arrow arrow-right" onclick="changeVideo(1)">&#10095;</button>
+        </div>
+        
+        <div class="next-btn-container">
+            <button class="next-video-button" onclick="changeVideo(1)">Next Video</button>
+        </div>
+    </div>
+
+    <footer class="w-full py-16 mt-20 border-t border-white/10 bg-black/10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 items-center text-center md:text-left">
+            <div>
+                <span class="text-xl font-black tracking-tighter uppercase">Anim<span class="text-glow">2D</span></span>
+                <p class="text-white/40 text-sm mt-4">Empowering artists to bring their static visions into dynamic motion.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="Index.html" class="nav-link">Home</a>
+                <a href="About.html" class="nav-link">About</a>
+                <a href="Software.html" class="nav-link">Software</a>
+                <a href="Showcase.html" class="nav-link active-link">Showcase</a>
+                 <a href="Line Art.html" class="nav-link">Line Art</a>
+                <a href="Motion.html" class="nav-link">Motion</a>
+            </div>
+            <div class="md:text-right">
+                <p class="text-white/40 text-sm">© 2026 Anim2D Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        // --- EDIT YOUR LINKS BELOW ---
+        const videoData = [
+            { 
+                title: "Animation 1: Long Steve- Rain", 
+                url: "https://youtu.be/igBBtv88FzU?si=5hzBdrbw3PpBj7mK" 
+            },
+            { 
+                title: "Animation 2: Birdbox Classic", 
+                url: "https://youtu.be/aIkIZAvCWZs?si=O8wS4XA00embvvDn" 
+            }
+        ];
+
+        // This function extracts the ID from a full YouTube Link
+        function getYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        let currentVidIndex = 0;
+        let player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtubePlayer', {
+                height: '100%',
+                width: '100%',
+                videoId: getYouTubeId(videoData[currentVidIndex].url),
+                playerVars: { 'autoplay': 0, 'modestbranding': 1, 'rel': 0 }
+            });
+        }
+
+        function changeVideo(dir) {
+            currentVidIndex += dir;
+            if (currentVidIndex >= videoData.length) currentVidIndex = 0;
+            if (currentVidIndex < 0) currentVidIndex = videoData.length - 1;
+
+            document.getElementById("video-title").innerHTML = `<strong class="text-glow">${videoData[currentVidIndex].title}</strong>`;
+            
+            const newId = getYouTubeId(videoData[currentVidIndex].url);
+            if (player && player.loadVideoById) {
+                player.loadVideoById(newId);
+            }
+        }
+		
+		        const bttButton = document.getElementById("backToTop");
+        window.onscroll = () => {
+            bttButton.style.display = (window.scrollY > 300) ? "flex" : "none";
+        };
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+		
+		const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+
+menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('flex');
+});
+
+    </script>
+	<script src="script.js"></script>
+</body>
+</html>

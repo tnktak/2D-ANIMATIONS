@@ -1,0 +1,113 @@
+/* --- 1. GLOBAL & THEME --- */
+:root {
+    --bg-deep: #064E3B;
+    --mint-bright: #6EE7B7;
+    --mint-soft: #10B981;
+    --text-offwhite: #F0FDF4;
+}
+
+html, body { 
+    margin: 0; 
+    font-family: 'Inter', sans-serif; 
+    background-color: var(--bg-deep); 
+    color: var(--text-offwhite); 
+    overflow-x: hidden; 
+    scroll-behavior: smooth;
+}
+
+.aurora-mesh { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+    background: radial-gradient(circle at 15% 15%, rgba(110, 231, 183, 0.15) 0%, transparent 45%), 
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 45%); 
+    filter: blur(70px); 
+}
+
+.text-glow { 
+    color: var(--mint-bright); 
+    text-shadow: 0 0 12px rgba(110, 231, 183, 0.8); 
+}
+
+/* --- 2. NAVIGATION (MATCHING SCREENSHOT) --- */
+.nav-bar {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(6, 78, 59, 0.95); 
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(110, 231, 183, 0.1);
+}
+
+.nav-link { 
+    font-size: 0.75rem; 
+    font-weight: 800; /* Bold links */
+    text-transform: uppercase; 
+    letter-spacing: 0.1em; 
+    opacity: 0.7; 
+    transition: 0.3s; 
+    color: white;
+    text-decoration: none;
+}
+
+.nav-link:hover, .nav-link.active-link { 
+    opacity: 1; 
+    color: var(--mint-bright); 
+    text-shadow: 0 0 10px rgba(110, 231, 183, 0.5);
+}
+
+/* Auth Pill Buttons */
+.nav-actions button {
+    height: 42px; 
+    min-width: 135px; 
+    padding: 0 24px; 
+    border-radius: 50px; /* Pill Shape */
+    font-weight: 900; 
+    text-transform: uppercase; 
+    font-size: 0.7rem;
+    letter-spacing: 0.05em; 
+    cursor: pointer; 
+    transition: all 0.3s ease;
+}
+
+.signin { 
+    background: transparent; 
+    color: var(--mint-bright); 
+    border: 2px solid var(--mint-bright); 
+}
+
+.get-started { 
+    background-color: var(--mint-bright); 
+    color: #064E3B !important; 
+    border: none;
+    box-shadow: 0 0 15px rgba(110, 231, 183, 0.4); 
+}
+
+/* --- 3. HERO & BANNER --- */
+.banner-container { 
+    width: 85%; height: 45vh; margin: 0 auto; 
+    border: 6px solid #FFFFFF; border-radius: 2.5rem; 
+    overflow: hidden; position: relative; 
+}
+
+/* --- 4. 3D GALLERY (4 ITEMS) --- */
+.carousel-scene { width: 100%; height: 500px; perspective: 1200px; display: flex; align-items: center; justify-content: center; }
+.carousel-360 { width: 240px; height: 300px; position: relative; transform-style: preserve-3d; animation: rotateRound 25s infinite linear; }
+@keyframes rotateRound { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+.polaroid-card { position: absolute; width: 240px; height: 300px; background: white; padding: 12px 12px 50px 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border-radius: 4px; backface-visibility: hidden; }
+.polaroid-card img { width: 100%; height: 220px; object-fit: cover; }
+
+.item-1 { transform: rotateY(0deg) translateZ(350px); }
+.item-2 { transform: rotateY(90deg) translateZ(350px); }
+.item-3 { transform: rotateY(180deg) translateZ(350px); }
+.item-4 { transform: rotateY(270deg) translateZ(350px); }
+
+/* --- 5. MODAL & MISC --- */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
+.modal-content { background: white; color: #1a1a1a; width: 95%; max-width: 450px; padding: 40px; border-radius: 24px; position: relative; }
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; color: #666; }
+.input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+.btn-continue { width: 100%; padding: 14px; background: linear-gradient(90deg, #5d24d6, #7A3F9A); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
+
+.particle { position: absolute; pointer-events: none; font-size: 1.8rem; z-index: 2000; animation: burstOut 0.8s ease-out forwards; }
+@keyframes burstOut { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 100% { transform: translate(-50%, -200%) scale(1.5); opacity: 0; } }
+
+.back-to-top { position: fixed; bottom: 30px; right: 30px; background: var(--mint-bright); color: var(--bg-deep); width: 50px; height: 50px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; }

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Anim2D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+	<link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #064E3B; --mint-bright: #6EE7B7; --mint-soft: #10B981;
+            --text-offwhite: #F0FDF4; --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(110, 231, 183, 0.15);
+        }
+        html, body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-deep); color: var(--text-offwhite); overflow-x: hidden; scroll-behavior: smooth; }
+        .aurora-mesh { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 15% 15%, rgba(110, 231, 183, 0.15) 0%, transparent 45%), radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 45%); filter: blur(70px); }
+        .text-glow { color: var(--mint-bright); text-shadow: 0 0 12px rgba(110, 231, 183, 0.6), 0 0 24px rgba(110, 231, 183, 0.3); }
+        
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 1.5rem; transition: all 0.3s ease; height: 100%; }
+        .glass-card:hover { transform: translateY(-8px); border-color: var(--mint-bright); background: rgba(255, 255, 255, 0.08); }
+        
+        .nav-bar { position: sticky; top: 0; z-index: 1000; background: rgba(6, 78, 59, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); }
+        .nav-link { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; transition: 0.3s; color: white; }
+        .nav-link:hover, .nav-link.active-link { opacity: 1; color: var(--mint-bright); }
+
+        .hero-banner {
+            width: 100%; height: 400px;
+            /* Updated to Founder.jpeg */
+            background: linear-gradient(rgba(6, 78, 59, 0.4), rgba(6, 78, 59, 0.9)), url('Founder12.jpg');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .principle-img-box {
+            width: 100%; height: 180px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 1rem; margin: 1.5rem 0;
+            overflow: hidden; border: 1px solid var(--glass-border);
+        }
+        .principle-img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .glass-card:hover .principle-img-box img { opacity: 1; transform: scale(1.05); }
+
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--mint-bright); color: var(--bg-deep);
+            width: 50px; height: 50px; border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            font-weight: 900; cursor: pointer; z-index: 1000;
+        }
+		
+		#mobile-menu {
+    /* Ensures the menu slides down smoothly */
+    animation: slideDown 0.3s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+		/* Mobile Specific Button Styling */
+.mobile-signin-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--mint-bright);
+    color: white;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.mobile-get-started-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--mint-bright);
+    color: #064E3B; /* Deep green text */
+    border: none;
+    border-radius: 50px; /* Perfect pill shape */
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 15px rgba(110, 231, 183, 0.4); /* Subtle glow */
+    transition: 0.3s;
+}
+
+.mobile-get-started-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1);
+}
+    </style>
+	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div class="aurora-mesh"></div>
+
+<nav class="nav-bar">
+    <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+        <span class="text-xl font-black tracking-tighter uppercase shrink-0">
+            Anim<span class="text-glow">2D</span>
+        </span>
+
+        <div class="hidden md:flex flex-1 justify-center gap-10">
+            <a href="Index.html" class="nav-link">Home</a>
+            <a href="About.html" class="nav-link active-link">About</a>
+            <a href="Software.html" class="nav-link">Software</a>
+            <a href="Showcase.html" class="nav-link">Showcase</a>
+            <a href="Line Art.html" class="nav-link">Line Art</a>
+            <a href="Motion.html" class="nav-link">Motion</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="nav-actions hidden md:flex shrink-0">
+                <div id="logged-out-UI" class="flex gap-4">
+                    <button class="signin" id="navSignIn">Sign In</button>
+                    <button class="get-started" id="navGetStarted">Get Started</button>
+                </div>
+            </div>
+
+<button id="menu-btn" class="md:hidden text-white text-3xl focus:outline-none">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+        </div>
+    </div>
+
+<div id="mobile-menu" class="hidden flex-col bg-[#064E3B] border-b border-white/10 px-8 py-10 space-y-6 md:hidden w-full">
+    <div class="flex flex-col space-y-4 mb-4">
+        <a href="Index.html" class="nav-link block">Home</a>
+        <a href="About.html" class="nav-link block active-link">About</a>
+        <a href="Software.html" class="nav-link block">Software</a>
+        <a href="Showcase.html" class="nav-link block">Showcase</a>
+        <a href="Line Art.html" class="nav-link block">Line Art</a>
+        <a href="Motion.html" class="nav-link block">Motion</a>
+    </div>
+
+    <hr class="border-white/10 my-4">
+
+    <div class="flex flex-col space-y-4">
+        <button class="mobile-signin-btn" id="mobileSignIn">Sign In</button>
+        <button class="mobile-get-started-btn" id="mobileGetStarted">Get Started</button>
+    </div>
+</div>
+</nav>
+	
+	<div id="authModal" class="modal" style="display: none; align-items: center; justify-content: center;">
+    <div class="modal-content" style="position: relative;">
+        <span class="close-btn" style="position: absolute; right: 20px; top: 10px; cursor: pointer; font-size: 24px;">&times;</span>
+        
+        <div id="login-container">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black uppercase">Welcome Back</h2>
+                <p class="text-sm text-gray-500">Log in to access your account.</p>
+            </div>
+            <form id="loginForm">
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Email Address</label>
+                    <input type="email" id="loginEmail" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="name@company.com" required>
+                </div>
+                <div class="input-group mb-6">
+                    <label class="block text-xs uppercase font-bold mb-1">Password</label>
+                    <input type="password" id="loginPassword" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-continue w-full py-3 bg-white text-black font-bold uppercase rounded">Log In</button>
+            </form>
+        </div>
+
+        <div id="register-container" style="display: none;">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black uppercase">Join Anim2D</h2>
+                <p class="text-sm text-gray-500">Create your account to get started.</p>
+            </div>
+            <form id="registerForm">
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Full Name</label>
+                    <input type="text" id="regName" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="Your Name" required>
+                </div>
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Email</label>
+                    <input type="email" id="regEmail" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="email@example.com" required>
+                </div>
+                <div class="input-group mb-6">
+                    <label class="block text-xs uppercase font-bold mb-1">Password</label>
+                    <input type="password" id="regPassword" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-continue w-full py-3 bg-white text-black font-bold uppercase rounded">Create Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+    <header class="hero-banner">
+        <div class="text-center px-6">
+            <h1 class="text-5xl md:text-7xl font-black uppercase italic tracking-tighter">The <span class="text-glow">Foundations</span></h1>
+            <p class="text-white/80 mt-4 text-lg max-w-2xl mx-auto">Disney's 12 Principles of Animation serve as the definitive guide for creating realistic movement. From Squash and Stretch to Timing, these foundations allow characters to feel alive and believable.</p>
+        </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">01</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Squash & Stretch</h3>
+                <div class="principle-img-box"><img src="1.png" alt="Squash and Stretch"></div>
+                <p class="text-sm text-white/60 leading-relaxed">The most vital principle. Defines weight and volume by distorting shape during movement.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">02</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Anticipation</h3>
+                <div class="principle-img-box"><img src="2.png" alt="Anticipation"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Preparing the viewer for an action. Like a spring coiling before release.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">03</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Staging</h3>
+                <div class="principle-img-box"><img src="3.png" alt="Staging"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Directing the audience's eye. Every pose must tell a clear, distraction-free story.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">04</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Pose to Pose</h3>
+                <div class="principle-img-box"><img src="4.png" alt="Pose to Pose"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Drawing key frames first to ensure the character hits the right marks.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">05</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Follow Through</h3>
+                <div class="principle-img-box"><img src="5.png" alt="Follow Through"></div>
+                <p class="text-sm text-white/60 leading-relaxed">When the body stops, extremities continue moving to simulate inertia.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">06</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Slow In & Out</h3>
+                <div class="principle-img-box"><img src="6.png" alt="Slow In & Out"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Adding frames at the start and end of movement for realistic acceleration.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">07</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Arcs</h3>
+                <div class="principle-img-box"><img src="7.png" alt="Arcs"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Natural movements follow a curved path. Arcs make motion feel organic.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">08</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Secondary Action</h3>
+                <div class="principle-img-box"><img src="8.png" alt="Secondary Action"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Supporting actions that add character depth and personality.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">09</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Timing</h3>
+                <div class="principle-img-box"><img src="9.png" alt="Timing"></div>
+                <p class="text-sm text-white/60 leading-relaxed">The physics of time. Correct timing gives objects their specific weight.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">10</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Exaggeration</h3>
+                <div class="principle-img-box"><img src="10.png" alt="Exaggeration"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Pushing reality to the extreme to make actions more dynamic.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">11</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Solid Drawing</h3>
+                <div class="principle-img-box"><img src="11.png" alt="Solid Drawing"></div>
+                <p class="text-sm text-white/60 leading-relaxed">Giving drawings a 3D feel through volume, weight, and balance.</p>
+            </div>
+            <div class="glass-card p-6 flex flex-col">
+                <span class="text-mint-soft font-black text-sm tracking-widest uppercase">12</span>
+                <h3 class="text-2xl font-black mt-2 text-glow italic uppercase">Appeal</h3>
+                <div class="principle-img-box"><img src="12.png" alt="Appeal"></div>
+                <p class="text-sm text-white/60 leading-relaxed">The charisma of the character that connects with the audience.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-white/10">
+        <div class="mb-12">
+            <h2 class="text-4xl font-black uppercase italic tracking-tighter">Essential <span class="text-glow">Learning</span></h2>
+            <p class="text-white/60 mt-2">Deep dives into the laws of motion.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card overflow-hidden">
+                <div class="aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/uDqjIdI4bF4" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="p-4"><h4 class="font-bold text-mint-bright uppercase text-sm">Full Overview</h4></div>
+            </div>
+            <div class="glass-card overflow-hidden">
+                <div class="aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/haa7n3UGyDc" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="p-4"><h4 class="font-bold text-mint-bright uppercase text-sm">Alan Becker Breakdown</h4></div>
+            </div>
+            <div class="glass-card overflow-hidden">
+                <div class="aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/Tt4cUdQMh7I" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="p-4"><h4 class="font-bold text-mint-bright uppercase text-sm">Physics of Motion</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="w-full py-16 border-t border-white/10 bg-black/20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 items-center text-center md:text-left">
+            <div>
+                <span class="text-xl font-black tracking-tighter uppercase">Anim<span class="text-glow">2D</span></span>
+                <p class="text-white/40 text-sm mt-4">Empowering artists through motion.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="Index.html" class="nav-link">Home</a>
+                <a href="About.html" class="nav-link active-link">About</a>
+                <a href="Software.html" class="nav-link">Software</a>
+                <a href="Showcase.html" class="nav-link">Showcase</a>
+                <a href="Line Art.html" class="nav-link">Line Art</a>
+                <a href="Motion.html" class="nav-link">Motion</a>
+            </div>
+            <div class="md:text-right"><p class="text-white/40 text-sm">© 2026 Anim2D Academy.</p></div>
+        </div>
+    </footer>
+
+    <div id="backToTop" class="back-to-top" onclick="scrollToTop()">↑</div>
+<script>
+    // Back to top logic
+    const bttButton = document.getElementById("backToTop");
+    window.onscroll = () => { bttButton.style.display = (window.scrollY > 300) ? "flex" : "none"; };
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+	
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const menuIcon = menuBtn.querySelector('i'); // Get the icon inside the button
+
+menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('flex');
+    
+    // Toggle the icon between bars and X
+    if (mobileMenu.classList.contains('hidden')) {
+        menuIcon.classList.replace('fa-xmark', 'fa-bars');
+    } else {
+        // Note: 'fa-xmark' is the standard FA 6 icon for X
+        // If using FA 5, use 'fa-times'
+        menuIcon.classList.replace('fa-bars', 'fa-xmark');
+    }
+});
+</script>
+
+</body>
+</html>

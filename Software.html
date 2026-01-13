@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software | Anim2D</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+	<link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #064E3B;
+            --mint-bright: #6EE7B7;
+            --mint-soft: #10B981;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(110, 231, 183, 0.15);
+        }
+        
+        html, body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-deep); 
+            color: white; 
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- Navigation Bar --- */
+        .nav-bar { 
+            position: sticky; top: 0; z-index: 1000; 
+            background: rgba(6, 78, 59, 0.95); backdrop-filter: blur(12px); 
+            border-bottom: 1px solid var(--glass-border); 
+        }
+        .nav-link { 
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; 
+            letter-spacing: 0.1em; opacity: 0.6; transition: 0.3s; color: white; 
+        }
+        .nav-link:hover, .active-link { opacity: 1; color: var(--mint-bright); }
+        .text-glow { color: var(--mint-bright); text-shadow: 0 0 12px rgba(110, 231, 183, 0.6); }
+
+        /* --- Glowing Card Styles --- */
+        .feature-card { 
+            background: var(--glass-bg); backdrop-filter: blur(10px); 
+            border: 1px solid var(--glass-border); border-radius: 1.5rem; 
+            padding: 30px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; height: 100%;
+        }
+        .feature-card:hover { 
+            transform: translateY(-10px); border-color: var(--mint-bright);
+            box-shadow: 0 0 25px rgba(110, 231, 183, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .software-img { 
+            width: 100%; height: 140px; display: flex; 
+            align-items: center; justify-content: center; margin-bottom: 20px;
+        }
+        .software-img img { max-height: 100%; border-radius: 12px; transition: 0.5s; }
+        .feature-card:hover .software-img img { transform: scale(1.05); filter: drop-shadow(0 0 10px var(--mint-bright)); }
+
+        .download-btn {
+            margin-top: auto; background: var(--mint-bright); color: var(--bg-deep);
+            padding: 10px 25px; border-radius: 50px; font-weight: 800;
+            font-size: 0.75rem; text-transform: uppercase; transition: 0.3s;
+            display: inline-block; border: none; cursor: pointer; text-decoration: none;
+        }
+        .download-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--mint-bright); background: white; }
+
+        /* --- Containers --- */
+        .video-container {
+            width: 100%; aspect-ratio: 16/9; margin-top: 20px;
+            border-radius: 1rem; overflow: hidden;
+            border: 1px solid var(--glass-border); background: #000;
+        }
+
+        /* --- Dino Fix: Shifts iframe up so the ground/cactus is visible --- */
+        .game-container-dino {
+            width: 100%; height: 350px; margin-top: 20px;
+            border-radius: 1rem; overflow: hidden;
+            border: 1px solid var(--glass-border); background: #fff;
+            position: relative;
+        }
+        .game-container-dino iframe {
+            width: 100%; height: 500px; border: none;
+            position: absolute; top: -110px; 
+        }
+
+        /* --- Memory Game Styles --- */
+        .memory-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+            width: 100%; max-width: 350px; perspective: 1000px; margin-top: 20px;
+        }
+        .card {
+            aspect-ratio: 1/1; background: var(--bg-deep); border: 2px solid var(--glass-border);
+            border-radius: 8px; cursor: pointer; position: relative;
+            transform-style: preserve-3d; transition: transform 0.5s;
+        }
+        .card.flipped { transform: rotateY(180deg); border-color: var(--mint-bright); }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            display: flex; align-items: center; justify-content: center; border-radius: 6px;
+        }
+        .card-back { background: var(--mint-soft); color: var(--bg-deep); transform: rotateY(180deg); font-size: 1.5rem; }
+        .card-front { background: rgba(255,255,255,0.1); font-weight: 900; color: var(--mint-bright); }
+
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--mint-bright); color: var(--bg-deep);
+            width: 50px; height: 50px; border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            font-weight: 900; cursor: pointer; z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+   <div class="aurora-mesh"></div>
+
+     <nav class="nav-bar sticky top-0 z-50 bg-[#064E3B] backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-8 py-6 flex items-center justify-between">
+        <span class="text-xl font-black tracking-tighter uppercase shrink-0">
+            Anim<span class="text-glow">2D</span>
+        </span>
+
+        <div class="hidden md:flex flex-1 justify-center gap-10">
+            <a href="Index.html" class="nav-link">Home</a>
+            <a href="About.html" class="nav-link">About</a>
+            <a href="Software.html" class="nav-link active-link">Software</a>
+            <a href="Showcase.html" class="nav-link">Showcase</a>
+            <a href="Line Art.html" class="nav-link">Line Art</a>
+            <a href="Motion.html" class="nav-link">Motion</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="nav-actions hidden md:flex shrink-0">
+                <div id="logged-out-UI" class="flex gap-4">
+                    <button class="signin" id="navSignIn">Sign In</button>
+                    <button class="get-started" id="navGetStarted">Get Started</button>
+                </div>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-white text-3xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+ <div id="mobile-menu" class="hidden flex-col bg-[#064E3B] border-b border-white/10 px-8 py-10 space-y-5 md:hidden w-full">
+        <a href="Index.html" class="nav-link block">Home</a>
+        <a href="About.html" class="nav-link block">About</a>
+        <a href="Software.html" class="nav-link block active-link">Software</a>
+        <a href="Showcase.html" class="nav-link block">Showcase</a>
+        <a href="Line Art.html" class="nav-link block">Line Art</a>
+        <a href="Motion.html" class="nav-link block">Motion</a>
+        <hr class="border-white/10">
+        <button class="signin w-full py-2">Sign In</button>
+        <button class="get-started w-full py-3 mt-2">Get Started</button>
+    </div>
+</nav>
+	
+	<div id="authModal" class="modal" style="display: none; align-items: center; justify-content: center;">
+    <div class="modal-content" style="position: relative;">
+        <span class="close-btn" style="position: absolute; right: 20px; top: 10px; cursor: pointer; font-size: 24px;">&times;</span>
+        
+        <div id="login-container">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black uppercase">Welcome Back</h2>
+                <p class="text-sm text-gray-500">Log in to access your account.</p>
+            </div>
+            <form id="loginForm">
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Email Address</label>
+                    <input type="email" id="loginEmail" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="name@company.com" required>
+                </div>
+                <div class="input-group mb-6">
+                    <label class="block text-xs uppercase font-bold mb-1">Password</label>
+                    <input type="password" id="loginPassword" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-continue w-full py-3 bg-white text-black font-bold uppercase rounded">Log In</button>
+            </form>
+        </div>
+
+        <div id="register-container" style="display: none;">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black uppercase">Join Anim2D</h2>
+                <p class="text-sm text-gray-500">Create your account to get started.</p>
+            </div>
+            <form id="registerForm">
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Full Name</label>
+                    <input type="text" id="regName" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="Your Name" required>
+                </div>
+                <div class="input-group mb-4">
+                    <label class="block text-xs uppercase font-bold mb-1">Email</label>
+                    <input type="email" id="regEmail" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="email@example.com" required>
+                </div>
+                <div class="input-group mb-6">
+                    <label class="block text-xs uppercase font-bold mb-1">Password</label>
+                    <input type="password" id="regPassword" class="w-full p-2 bg-black/20 border border-white/10 rounded" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-continue w-full py-3 bg-white text-black font-bold uppercase rounded">Create Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <section class="max-w-7xl mx-auto px-6 py-20">
+        <h2 class="text-4xl md:text-5xl font-black text-center uppercase italic mb-16">2D Animation <span class="text-glow">Software</span></h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="feature-card text-center">
+                <div class="software-img"><img src="adobeanimatelogo.jpg" alt="Adobe Animate"></div>
+                <h3 class="text-xl font-bold mb-2">Adobe Animate</h3>
+                <p class="text-sm opacity-60 mb-6">Vector-based animation for interactive web content.</p>
+                <a href="https://www.adobe.com/products/animate.html" target="_blank" class="download-btn">Get Software</a>
+            </div>
+            <div class="feature-card text-center">
+                <div class="software-img"><img src="toonboom.png" alt="Toon Boom"></div>
+                <h3 class="text-xl font-bold mb-2">Toon Boom</h3>
+                <p class="text-sm opacity-60 mb-6">The standard for professional studio rigging.</p>
+                <a href="https://www.toonboom.com/products/harmony" target="_blank" class="download-btn">Get Software</a>
+            </div>
+            <div class="feature-card text-center">
+                <div class="software-img"><img src="krita.png" alt="Krita"></div>
+                <h3 class="text-xl font-bold mb-2">Krita</h3>
+                <p class="text-sm opacity-60 mb-6">Free open-source tool for frame-by-frame art.</p>
+                <a href="https://krita.org/en/download/krita-desktop/" target="_blank" class="download-btn">Download Free</a>
+            </div>
+            <div class="feature-card text-center">
+                <div class="software-img"><img src="clip.png" alt="Clip Studio Paint"></div>
+                <h3 class="text-xl font-bold mb-2">Clip Studio</h3>
+                <p class="text-sm opacity-60 mb-6">Premium digital brushes for fluid line-art.</p>
+                <a href="https://www.clipstudio.net/en/purchase/" target="_blank" class="download-btn">Get Software</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-white/10">
+        <h2 class="text-4xl font-black text-center uppercase italic mb-12">Software <span class="text-glow">Tutorials</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="feature-card">
+                <h3 class="font-black uppercase mb-2">Adobe Animate Basics</h3>
+                <div class="video-container">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/0itiuHreY3A" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="feature-card">
+                <h3 class="font-black uppercase mb-2">Toon Boom Essentials</h3>
+                <div class="video-container">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/MI65MRdKfIY" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-20 border-t border-white/10">
+        <h2 class="text-4xl font-black text-center uppercase italic mb-12">Interactive <span class="text-glow">Playground</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            <div class="feature-card">
+                <h3 class="font-black uppercase mb-2">Classic Dino Run</h3>
+                <p class="text-xs opacity-50 mb-2 italic">Click inside and press Space to Start</p>
+                <div class="game-container-dino">
+                    <iframe src="https://dinosaur-game.io/" scrolling="no"></iframe>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h3 class="font-black uppercase mb-2">Memory Match</h3>
+                <p class="text-xs opacity-50 mb-2 italic">Remember the animation tools!</p>
+                <div id="cardGrid" class="memory-grid"></div>
+                <button onclick="resetMemoryGame()" class="download-btn mt-8">Restart Game</button>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="w-full py-16 mt-20 border-t border-white/10 bg-black/10">
+        <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-12 items-center text-center md:text-left">
+            <div>
+                <span class="text-xl font-black tracking-tighter uppercase">Anim<span class="text-glow">2D</span></span>
+                <p class="text-white/40 text-sm mt-4 italic">Empowering artists to bring their static visions into dynamic motion.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="Index.html" class="nav-link">Home</a>
+                <a href="About.html" class="nav-link">About</a>
+                <a href="Software.html" class="nav-link active-link">Software</a>
+                <a href="Showcase.html" class="nav-link">Showcase</a>
+			    <a href="Line Art.html" class="nav-link">Line Art</a>
+                <a href="Motion.html" class="nav-link">Motion</a>
+            </div>
+            <div class="md:text-right">
+                <p class="text-white/40 text-sm">© 2026 Anim2D Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="backToTop" class="back-to-top" onclick="scrollToTop()">↑</div>
+
+    <script>
+        const bttButton = document.getElementById("backToTop");
+        window.onscroll = () => { bttButton.style.display = (window.scrollY > 300) ? "flex" : "none"; };
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        const symbols = ['🎨', '🎬', '✏️', '🖌️', '🎥', '✨', '📐', '🖼️'];
+        let cards = [...symbols, ...symbols];
+        let flippedCards = [];
+        let matchedCount = 0;
+        let canFlip = true;
+
+        function resetMemoryGame() {
+            const grid = document.getElementById('cardGrid');
+            grid.innerHTML = '';
+            matchedCount = 0;
+            flippedCards = [];
+            canFlip = true;
+            cards.sort(() => Math.random() - 0.5).forEach(symbol => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `<div class="card-front">?</div><div class="card-back">${symbol}</div>`;
+                card.addEventListener('click', () => {
+                    if (!canFlip || card.classList.contains('flipped')) return;
+                    card.classList.add('flipped');
+                    flippedCards.push(card);
+                    if (flippedCards.length === 2) {
+                        canFlip = false;
+                        const val1 = flippedCards[0].querySelector('.card-back').innerText;
+                        const val2 = flippedCards[1].querySelector('.card-back').innerText;
+                        if (val1 === val2) {
+                            matchedCount += 2;
+                            flippedCards = [];
+                            canFlip = true;
+                            if (matchedCount === cards.length) setTimeout(() => alert('Legendary Focus! Pair Matched.'), 500);
+                        } else {
+                            setTimeout(() => {
+                                flippedCards.forEach(c => c.classList.remove('flipped'));
+                                flippedCards = [];
+                                canFlip = true;
+                            }, 1000);
+                        }
+                    }
+                });
+                grid.appendChild(card);
+            });
+        }
+        resetMemoryGame();
+		
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const menuIcon = menuBtn.querySelector('i');
+
+menuBtn.addEventListener('click', () => {
+    const isHidden = mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('flex');
+    
+    // Switch between bars and X icon
+    if (isHidden) {
+        menuIcon.className = 'fa-solid fa-bars';
+        document.body.style.overflow = 'auto';
+    } else {
+        menuIcon.className = 'fa-solid fa-xmark';
+        document.body.style.overflow = 'hidden'; // Stop background scroll
+    }
+});
+    </script>
+	<script src="script.js"></script>
+</body>
+</html>
